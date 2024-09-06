@@ -58,13 +58,26 @@
           .getElementById("contact-form")
           .addEventListener("submit", function (event) {
             event.preventDefault();
+            loader.style.display=""
             // these IDs from the previous steps
             emailjs.sendForm("service_3a9afec", "template_sw9c63g", this).then(
               () => {
-                console.log("SUCCESS!");
+                success.style.color="green";
+                success.innerHTML="Successfully Sent ";
+                 loader.style.display="none"
+                 document.getElementById("contact-form").reset();
+
+                 timeoutId = setTimeout(() => {
+                  success.innerHTML="  ";
+
+                  }, 5000);
               },
               (error) => {
-                console.log("FAILED...", error);
+                success.style.color="red";
+                success.innerHTML="FAILED  ";
+                 loader.style.display="none"
+               
+                // console.log("FAILED...", error);
               }
             );
           });
@@ -192,6 +205,7 @@
           </div>
           <div class="col-md-6 padding-15">
             <div class="contact-form">
+              <p id="success" style="text-align: center;"></p>
               <form
                 action="#"
                 method="post"
@@ -203,7 +217,7 @@
                   <div class="col-sm-6">
                     <input
                       type="text"
-                      id="name"
+                      id="to_name"
                       name="to_name"
                       class="form-control"
                       placeholder="Name"
@@ -213,7 +227,7 @@
                   <div class="col-sm-6">
                     <input
                       type="email"
-                      id="email"
+                      id="from_name"
                       name="from_name"
                       class="form-control"
                       placeholder="Email"
@@ -237,7 +251,7 @@
                 <div class="form-group row">
                   <div class="col-md-12">
                     <button id="submit" class="default-btn" type="submit">
-                      Send Message
+                      Send Message <span id="loader" style="display: none;" class="fa fa-spin fa-spinner"></span>
                     </button>
                   </div>
                 </div>
